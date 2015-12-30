@@ -8,15 +8,15 @@ from distutils.dep_util import newer
 sys.path.insert(0, path('.').abspath())
 import version
 
-setup(name='python-package-template',
+setup(name='microdrop-device-converter',
       version=version.getVersion(),
       description='Add description here.',
       keywords='',
       author='Anonymous',
       author_email='you@mail.com',
-      url='https://github.com/wheeler-microfluidics/python-package-template',
+      url='https://github.com/wheeler-microfluidics/microdrop-device-converter',
       license='GPL',
-      packages=['python_package_template', ],
+      packages=['microdrop_device_converter', ],
       install_requires=[],
       # Install data listed in `MANIFEST.in`
       include_package_data=True)
