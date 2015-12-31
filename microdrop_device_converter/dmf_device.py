@@ -72,29 +72,38 @@ class DmfDevice():
         Load a DmfDevice from a file.
 
         Args:
-            filename: path to file.
+
+            filename (str) : Path to file.
+
         Raises:
-            TypeError: file is not a DmfDevice.
-            FutureVersionError: file was written by a future version of the
+
+            (TypeError) : File is not a DmfDevice.
+            (FutureVersionError) : File was written by a future version of the
                 software.
         """
         logger.debug("[DmfDevice].load(\"%s\")" % filename)
         logger.info("Loading DmfDevice from %s" % filename)
-        out=None
+        out = None
+
+        # Assume file contains `pickle`-serialized device.
         with open(filename, 'rb') as f:
             try:
                 out = pickle.load(f)
                 logger.debug("Loaded object from pickle.")
             except Exception, e:
                 logger.debug("Not a valid pickle file. %s." % e)
-        if out==None:
+
+        # Assume file contains `yaml`-serialized device.
+        if out is None:
             with open(filename, 'rb') as f:
                 try:
                     out = yaml.load(f)
                     logger.debug("Loaded object from YAML file.")
                 except Exception, e:
                     logger.debug("Not a valid YAML file. %s." % e)
-        if out==None:
+
+        if out is None:
+            # File does not contain any supported serialized device format.
             raise TypeError
         if not hasattr(out, 'version'):
             out.version = '0'
@@ -177,6 +186,13 @@ class DmfDevice():
         # else the versions are equal and don't need to be upgraded
 
     def to_frame(self):
+        '''
+        Returns:
+
+            (pandas.DataFrame) : Frame with one row per electrode vertex, including
+                vertex `x`/`y` coordinate and SVG electrode attributes (e.g.,
+                `"id"`, `"style"`).
+        '''
         vertices = []
 
         for i, e in self.electrodes.iteritems():
@@ -195,6 +211,26 @@ class DmfDevice():
                                                'vertex_i', 'x', 'y'])
 
     def to_svg(self, use_svg_path=True, detect_connections=True, extend=.5):
+        '''
+        Args:
+
+            use_svg_path (bool) : If `True`, electrodes are drawn as `svg:path`
+                elements.  Otherwise, electrodes are drawn as `svg:polygon`
+                elements.
+            detect_connections (bool) : If `True`, add `"Connections"` layer to
+                SVG by attempting to automatically detect adjacent electrodes.
+            extend (float) : The number of millimeters to extend electrode
+                boundaries from the electrode center to find overlapping
+                *adjacent* electrodes.
+
+        Returns:
+
+            (str) : SVG XML source with `"Device"` layer containing electrodes
+                drawn as `svg:path` elements, and an optional `"Connections"`
+                layer containing `svg:line` elements denoting *adjacent*
+                electrodes (i.e., electrodes that a drop may transition between
+                directly).
+        '''
         df_shapes = self.to_frame()
         minx, miny = df_shapes[['x', 'y']].min().values
 
