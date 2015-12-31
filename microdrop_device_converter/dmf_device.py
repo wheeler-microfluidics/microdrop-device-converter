@@ -93,6 +93,19 @@ class DmfDevice():
             except Exception, e:
                 logger.debug("Not a valid pickle file. %s." % e)
 
+        # Assume file contains `pickle`-serialized device, but using
+        # `microdrop.dmf_device` module.
+        if out is None:
+            device_data = path(filename).bytes()
+            device_data = device_data.replace('microdrop.dmf_device',
+                                              'microdrop_device_converter'
+                                              '.dmf_device')
+            try:
+                out = pickle.loads(device_data)
+                logger.debug('Loaded object from pickle.')
+            except Exception, e:
+                logger.debug('Not a valid pickle file.', exc_info=True)
+
         # Assume file contains `yaml`-serialized device.
         if out is None:
             with open(filename, 'rb') as f:
