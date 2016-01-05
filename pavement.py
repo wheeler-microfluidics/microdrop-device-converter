@@ -10,20 +10,22 @@ import version
 
 setup(name='microdrop-device-converter',
       version=version.getVersion(),
-      description='Add description here.',
+      description='Convert microdrop devices from v0.3.0 to SVG format.',
       keywords='',
-      author='Anonymous',
-      author_email='you@mail.com',
+      author='Christian Fobel',
+      author_email='christian@fobel.net',
       url='https://github.com/wheeler-microfluidics/microdrop-device-converter',
-      license='GPL',
-      packages=['microdrop_device_converter', ],
-      install_requires=[],
+      license='LGPLv2.1',
+      packages=['microdrop_device_converter'],
+      install_requires=['microdrop-utility>=0.4', 'numpy', 'pandas',
+                        'path-helpers>=0.2', 'pyyaml',
+                        'svg_model>=0.5.post10'],
       # Install data listed in `MANIFEST.in`
       include_package_data=True)
 
 
 @task
-@needs('generate_setup', 'minilib', 'setuptools.command.sdist') 
+@needs('generate_setup', 'minilib', 'setuptools.command.sdist')
 def sdist():
     """Overrides sdist to make sure that our setup.py is generated."""
     pass
