@@ -19,7 +19,7 @@ setup(name='microdrop-device-converter',
       packages=['microdrop_device_converter'],
       install_requires=['microdrop-utility>=0.4', 'numpy', 'pandas',
                         'path-helpers>=0.2', 'pyyaml',
-                        'svg_model>=0.5.post10'],
+                        'svg_model>=0.5.post14'],
       # Install data listed in `MANIFEST.in`
       include_package_data=True)
 
