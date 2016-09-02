@@ -17,16 +17,16 @@ def convert_device_to_svg(input_device_path, output_device_path,
 
         input_device_path (str) : Input device file path
         output_device_path (str) : Output SVG device file path
-        use_svg_path (bool) : If `True`, electrodes are drawn as `svg:path`
-            elements.  Otherwise, electrodes are drawn as `svg:polygon`
-            elements.
-        detect_connections (bool) : If `True`, automatically detect connections
-            between adjacent shapes and add a layer name `"Connections"` to the
-            output SVG file.
-        extend_mm (float) : If `detect_connections=True`, the distance each
-            electrode is extended out from each boundary to detect adjacent
-            electrodes.
-        overwrite (bool) : If `True`, overwrite existing file.
+        use_svg_path (bool, optional) : If ``True``, electrodes are drawn as
+            ``svg:path`` elements.  Otherwise, electrodes are drawn as
+            ``svg:polygon`` elements.
+        detect_connections (bool, optional) : If ``True``, automatically detect
+            connections between adjacent shapes and add a layer name
+            ``"Connections"`` to the output SVG file.
+        extend_mm (float, optional) : If ``detect_connections=True``, the
+            distance each electrode is extended out from each boundary to
+            detect adjacent electrodes.
+        overwrite (bool, optional) : If ``True``, overwrite existing file.
 
     Returns:
 

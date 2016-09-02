@@ -39,9 +39,10 @@ import yaml
 
 logger = logging.getLogger(__name__)
 
-# Add support for serialized device files where parent module is `dmf_device`
-# rather than the fully-qualified `microdrop.dmf_device`.  This is done by
-# adding the root of the `microdrop` module to the Python path.
+# Add support for serialized device files where parent module is ``dmf_device``
+# rather than the fully-qualified ``microdrop.dmf_device``.  This is done by
+# adding the root of the ``microdrop_device_converter`` package to the Python
+# path.
 microdrop_root = path(__file__).parent.abspath()
 if microdrop_root not in sys.path:
     sys.path.insert(0, microdrop_root)
@@ -77,8 +78,8 @@ class DmfDevice():
 
         Raises:
 
-            (TypeError) : File is not a DmfDevice.
-            (FutureVersionError) : File was written by a future version of the
+            TypeError : File is not a DmfDevice.
+            FutureVersionError : File was written by a future version of the
                 software.
         """
         logger.debug("[DmfDevice].load(\"%s\")" % filename)
@@ -200,11 +201,12 @@ class DmfDevice():
 
     def to_frame(self):
         '''
-        Returns:
-
-            (pandas.DataFrame) : Frame with one row per electrode vertex, including
-                vertex `x`/`y` coordinate and SVG electrode attributes (e.g.,
-                `"id"`, `"style"`).
+        Returns
+        -------
+        pandas.DataFrame
+            Frame with one row per electrode vertex, including vertex
+            ``x``/``y`` coordinate and SVG electrode attributes (e.g.,
+            ``"id"``, ``"style"``).
         '''
         vertices = []
 
@@ -227,23 +229,23 @@ class DmfDevice():
         '''
         Args:
 
-            use_svg_path (bool) : If `True`, electrodes are drawn as `svg:path`
-                elements.  Otherwise, electrodes are drawn as `svg:polygon`
-                elements.
-            detect_connections (bool) : If `True`, add `"Connections"` layer to
-                SVG by attempting to automatically detect adjacent electrodes.
-            extend (float) : The number of millimeters to extend electrode
-                boundaries from the electrode center to find overlapping
-                *adjacent* electrodes.
+            use_svg_path (bool, optional) : If ``True``, electrodes are drawn
+                as ``svg:path`` elements.  Otherwise, electrodes are drawn as
+                ``svg:polygon`` elements.
+            detect_connections (bool, optional) : If ``True``, add
+                ``"Connections"`` layer to SVG by attempting to automatically
+                detect adjacent electrodes.
+            extend (float, optional) : The number of millimeters to extend
+                electrode boundaries from the electrode center to find
+                overlapping *adjacent* electrodes.
 
-        Returns:
-
-            (str) : SVG XML source with `"Device"` layer containing electrodes
-                drawn as `svg:path` elements, and an optional `"Connections"`
-                layer containing `svg:line` elements denoting *adjacent*
-                electrodes (i.e., electrodes that a drop may transition between
-                directly).
-        '''
+        Returns
+        -------
+        str
+            SVG XML source with ``"Device"`` layer containing electrodes drawn
+            as ``svg:path`` elements, and an optional ``"Connections"`` layer
+            containing ``svg:line`` elements denoting *adjacent* electrodes
+            (i.e., electrodes that a drop may transition between directly). '''
         df_shapes = self.to_frame()
         minx, miny = df_shapes[['x', 'y']].min().values
 
